@@ -4,8 +4,11 @@ Agent instructions for this repository (harness-neutral). Claude Code reads `.cl
 
 ## Skills in this repo
 
+- `.claude/skills/codebase-onboarding/` — explore-phase: build a verified orientation brief for an unfamiliar codebase. Explicitly invoke with `/codebase-onboarding`.
 - `.claude/skills/intent-driven-development/` — turn ambiguous or high-impact changes into scoped, verifiable acceptance criteria before/alongside implementation. Explicitly invoke with `/intent-driven-development`.
 - `.claude/skills/living-docs-governance/` — maintain-phase docs governance: constitution/map/status/history roles wired to this file. Explicitly invoke with `/living-docs-governance`.
+
+Phases: use `codebase-onboarding` for one-time exploration, `intent-driven-development` when a change needs criteria, `living-docs-governance` once the project is maintained.
 
 ## Session start (living-docs-governance read sequence)
 
