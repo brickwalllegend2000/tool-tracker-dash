@@ -15,9 +15,9 @@ This is an **explore-phase** practice. Once the repository is understood and the
 
 - User asks to understand, review, explore, or get up to speed on an unfamiliar repository
 - A session starts with no prior context on a codebase that is large enough that guessing is dangerous
-- User pastes a repo URL or clone path and asks `what is this?», `how does it work?», `where is X?»
+- User pastes a repo URL or clone path and asks \`what is this?\`, \`how does it work?\`, \`where is X?\`
 - A handoff artifact (orientation brief) is requested for another agent or teammate
-- User explicitly invokes this skill with ${bt}/codebase-onboarding${bt}
+- User explicitly invokes this skill with \`/codebase-onboarding\`
 
 Do not activate when the repository already has living governance docs covering the map/status roles, when the question concerns one file or one known bug, or when the user has asked for implementation rather than understanding.
 
@@ -53,7 +53,7 @@ Do not activate when the repository already has living governance docs covering 
 
 ### 2. Trace the main path
 
-- Pick the one path that best answers `what does this system do?»
+- Pick the one path that best answers \`what does this system do?\`
 - Follow it end to end: input → validation → processing → storage → output
 - Record the actual files touched, in order, with one line on each role
 
@@ -120,7 +120,7 @@ Use the template below. Keep every statement traceable; mark inferences and open
 
 ## Examples
 
-**New session, no context — `what is this repo?»**
+**New session, no context — \`what is this repo?\`**
 
 Inventory shows a TypeScript CLI with one bin entry and a test directory. The brief traces the CLI command → argument parsing → core transform → output writer in five files, lists two supporting modules with their test files, and flags that the README claims a caching feature no code implements.
 
@@ -130,7 +130,7 @@ The brief's module map becomes the receiving agent's navigation surface. Verifie
 
 **Exploration that finds governance gaps**
 
-The brief ends with: README is the only doc and has drifted; suggest running `living-docs-governance` to assign map/status/history roles instead of leaving orientation knowledge in chat.
+The brief ends with: README is the only doc and has drifted; suggest running \`living-docs-governance\` to assign map/status/history roles instead of leaving orientation knowledge in chat.
 
 ## Quality Check
 
@@ -138,11 +138,11 @@ Before returning the brief, check:
 
 - Every claim is either verified (named file, test, config, or commit) or explicitly labeled an inference.
 - No business rule, priority, or target-user statement appears as a discovered fact.
-- The brief answers `where would I make change X?» for the most likely changes, not just `what files exist?».
+- The brief answers \`where would I make change X?\` for the most likely changes, not just \`what files exist?\`.
 - Commands were not executed from documentation; any executed command is read-only and listed.
 - No repository mutation happened, or the requested artifact was saved at a stated location.
 - No secret or sensitive payload was copied into the brief.
 
 ## Handoff
 
-When the repository will be worked on repeatedly, recommend `living-docs-governance` so the map, status, and history roles become durable instead of being rediscovered. When a specific change is now requested, hand the brief's verified context to `intent-driven-development` for acceptance criteria, or directly to the implementation workflow. Do not assume any named skill or tool is installed.
+When the repository will be worked on repeatedly, recommend \`living-docs-governance\` so the map, status, and history roles become durable instead of being rediscovered. When a specific change is now requested, hand the brief's verified context to \`intent-driven-development\` for acceptance criteria, or directly to the implementation workflow. Do not assume any named skill or tool is installed.
