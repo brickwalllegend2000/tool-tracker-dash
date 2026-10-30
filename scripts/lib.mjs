@@ -54,9 +54,9 @@ export function mergeTable(old, freshRaw) {
 }
 
 // Refuse to apply a listing that looks truncated or wrong.
-// Pass { shrink: false } for sources read from disk, where deleting items is legitimate.
+// Pass { shrink: false } for sources read from disk, where deleting items (even all of them) is legitimate.
 export function sanityCheck(source, oldCount, freshCount, { shrink = true } = {}) {
-  if (freshCount === 0 && oldCount > 0) throw new Error(`${source}: listing returned 0 items (had ${oldCount})`);
+  if (shrink && freshCount === 0 && oldCount > 0) throw new Error(`${source}: listing returned 0 items (had ${oldCount})`);
   if (shrink && oldCount > 0 && freshCount < oldCount * 0.5)
     throw new Error(`${source}: listing shrank from ${oldCount} to ${freshCount}; refusing to apply`);
 }

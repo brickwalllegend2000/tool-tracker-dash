@@ -43,6 +43,7 @@ test("sanityCheck rejects empty and collapsed listings", () => {
   assert.throws(() => sanityCheck("A", 3, 1));
   assert.doesNotThrow(() => sanityCheck("A", 4, 2));
   assert.doesNotThrow(() => sanityCheck("A", 3, 1, { shrink: false }));
+  assert.doesNotThrow(() => sanityCheck("A", 3, 0, { shrink: false }));
   assert.doesNotThrow(() => sanityCheck("A", 10, 9));
   assert.doesNotThrow(() => sanityCheck("A", 0, 3));
 });
