@@ -46,7 +46,7 @@ Data lives in `data/items.json` (one row per line, so refresh diffs are readable
 python3 -m http.server 8000
 ```
 
-Then open http://localhost:8000. Hosted, the same files are published by GitHub Pages (enable it once under Settings → Pages → Source: GitHub Actions).
+Then open http://localhost:8000. Hosted, the same files are served by GitHub Pages, normally at https://brickwalllegend2000.github.io/tool-tracker-dash/ (the standard address for this repo; not verified from the authoring sandbox). Deploy workflows and their overlap are tracked in [docs/status.md](docs/status.md).
 
 Simpler means: rows are metadata and links only, popularity signals (likes, stars, installs) are deliberately absent, and there is no server component. If a feature would require one, it does not belong in this repo.
 
@@ -60,6 +60,18 @@ Like skills-tracker, the table is regenerated rather than hand-edited. `scripts/
 - **Where it runs:** `.github/workflows/refresh.yml` runs daily (and on demand from the Actions tab), runs the tests first, and commits to `main` only when data changed. The run summary lists what was added, changed, or removed. `.github/workflows/pages.yml` redeploys the page afterwards.
 - **Run it yourself:** `node scripts/refresh.mjs --dry-run` previews changes without writing. `node --test` runs the tests.
 
+## Jump table
+
+| Need | Go to | Verify with |
+| --- | --- | --- |
+| Change how the page looks or filters | `index.html` | `python3 -m http.server 8000`, then use the page |
+| Add or fix a tracked item by hand | `data/items.json` (one row per line) | `node --test`; the page loads without errors |
+| Add an automated source | `scripts/sources.mjs` (adapter), `scripts/refresh.mjs` (register it) | add a fixture test in `test/refresh.test.mjs`; `node scripts/refresh.mjs --dry-run` |
+| Change merge or safety rules | `scripts/lib.mjs` (`mergeTable`, `sanityCheck`) | `node --test` |
+| Change schedule or deploy | `.github/workflows/` | Actions tab run summary |
+| Current blockers and cleanup | [docs/status.md](docs/status.md) | the workflow runs it cites |
+| Why a design choice was made | [docs/adr/](docs/adr/) | the code it links |
+
 ## Non-goals
 
 - Not a general project or task tracker.
@@ -71,6 +83,5 @@ Like skills-tracker, the table is regenerated rather than hand-edited. `scripts/
 - Constitution and agent instructions: [AGENTS.md](AGENTS.md)
 - Map (this document): README.md
 - Status: [docs/status.md](docs/status.md)
+- History: [docs/adr/](docs/adr/) for durable decisions; Git for routine changes
 - Skills: `.claude/skills/` — `codebase-onboarding` (explore), `intent-driven-development` (criteria), `living-docs-governance` (maintain)
-
-History role is deferred; Git carries routine changes and `docs/adr/` is for durable decisions.
