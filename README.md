@@ -12,10 +12,11 @@ This repo tracks the skills, commands, and agents exported by the gstack ecosyst
 | --- | --- | --- |
 | gstack | Bundled agent skills (57 as of this writing), with bundle grouping and cross-links | https://github.com/garrytan/gstack |
 | gbrain | Agent verbs (connect-coding-agent and related), an operating model rather than a skill list | https://github.com/garrytan/gbrain |
+| anthropics/skills | Anthropic's published agent skills (`skills/` layout) | https://github.com/anthropics/skills |
 | ECC | Harness operating system: skills, agents, commands, rules, hooks (`skills/`, `agents/` layout) | https://github.com/affaan-m/ECC |
 | this repo | Locally adopted skills under `.claude/skills/` (explore → criteria → maintain) | — |
 
-Other candidate sources (anthropics/skills and similar) may be added by PR; each source must be pinned to an exact listing URL so refreshes are reproducible.
+Other candidate sources may be added by PR; each source must be pinned to an exact listing URL so refreshes are reproducible.
 
 ## The table
 
@@ -43,6 +44,8 @@ Simpler means: rows are metadata and links only, popularity signals (likes, star
 ## Refresh model
 
 Like skills-tracker, the table is regenerated rather than hand-edited: a scheduled job re-reads each source's listing, diffs against the current table, and commits only real changes (new, changed, or removed items). Daily cadence to start; the job must never rewrite rows it cannot verify upstream.
+
+Planned home: a GitHub Actions workflow in this repo (runs are visible in the Actions tab), with `index.html` served via GitHub Pages so the directory is usable at a public URL. Not yet built.
 
 ## Non-goals
 
