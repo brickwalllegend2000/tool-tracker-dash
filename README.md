@@ -52,11 +52,11 @@ Simpler means: rows are metadata and links only, popularity signals (likes, star
 
 ## Refresh model
 
-Like skills-tracker, the table is regenerated rather than hand-edited. `scripts/refresh.mjs` (Node 22, no dependencies) re-reads each automated source, merges only real changes into `data/items.json`, and stamps `data/meta.json`.
+Like skills-tracker, the table is regenerated rather than hand-edited. `scripts/refresh.mjs` (Node 22, no dependencies) re-reads each automated source, merges only real changes into `data/items.json`, and stamps `data/meta.json` with the date of the last data change.
 
 - **Automated sources:** anthropics/skills and ECC (GitHub tree listing plus each file's frontmatter), and this repo's `.claude/skills/`.
 - **Curated sources:** gstack and gbrain have no machine-readable listing yet; their rows are edited by hand and the job never touches them. Add an adapter in `scripts/sources.mjs` when a feed exists.
-- **Safety:** a source that fails, returns nothing, or shrinks below half its previous size is skipped and its rows are kept as-is. Curated fields (category, bundle, links) survive refreshes; upstream owns description and URL.
+- **Safety:** a remote source that fails, returns nothing, or shrinks below half its previous size is skipped and its rows are kept as-is (this repo's own skills are read from disk and may shrink). Curated fields (category, bundle, links) survive refreshes; upstream owns description and URL.
 - **Where it runs:** `.github/workflows/refresh.yml` runs daily (and on demand from the Actions tab), runs the tests first, and commits to `main` only when data changed. The run summary lists what was added, changed, or removed. `.github/workflows/pages.yml` redeploys the page afterwards.
 - **Run it yourself:** `node scripts/refresh.mjs --dry-run` previews changes without writing. `node --test` runs the tests.
 

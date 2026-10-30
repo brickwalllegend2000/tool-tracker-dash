@@ -62,7 +62,7 @@ DATA=d;
 for(const s of [...new Set(DATA.map(r=>r.s))])fSrc.add(new Option(s,s));
 for(const c of [...new Set(DATA.map(r=>r.c))].sort())fCat.add(new Option(c==="\u2014"?"(none)":c,c));
 [q,fSrc,fCat,fType,sort].forEach(el=>el.addEventListener("input",render));render();
-fetch("data/meta.json").then(r=>r.json()).then(m=>{$("synced").textContent="Synced "+m.synced+"."}).catch(()=>{});
+fetch("data/meta.json").then(r=>r.json()).then(m=>{$("synced").textContent="Data updated "+m.synced+"."}).catch(()=>{});
 }).catch(e=>{count.textContent="Could not load data/items.json ("+e.message+"). Serve this folder over HTTP, e.g. python3 -m http.server."});
 </script>
 </body></html>

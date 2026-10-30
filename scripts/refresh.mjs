@@ -16,13 +16,13 @@ export async function refresh({ root, fetchFn = fetch, token, today = new Date()
   const failures = [];
 
   const jobs = [
-    ...GITHUB_SOURCES.map((cfg) => [cfg.source, () => fetchGithubSource(cfg, { fetchFn, token })]),
-    ["this repo", () => fetchLocalSkills(root)],
+    ...GITHUB_SOURCES.map((cfg) => [cfg.source, () => fetchGithubSource(cfg, { fetchFn, token }), true]),
+    ["this repo", () => fetchLocalSkills(root), false],
   ];
-  for (const [source, run] of jobs) {
+  for (const [source, run, shrink] of jobs) {
     try {
       const rows = await run();
-      sanityCheck(source, count(source), rows.length);
+      sanityCheck(source, count(source), rows.length, { shrink });
       fresh[source] = rows;
     } catch (e) {
       failures.push(`${source}: ${e.message}`);

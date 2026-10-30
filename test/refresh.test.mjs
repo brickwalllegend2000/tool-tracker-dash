@@ -40,6 +40,9 @@ test("mergeTable: empty upstream description keeps the old one", () => {
 test("sanityCheck rejects empty and collapsed listings", () => {
   assert.throws(() => sanityCheck("A", 10, 0));
   assert.throws(() => sanityCheck("A", 10, 4));
+  assert.throws(() => sanityCheck("A", 3, 1));
+  assert.doesNotThrow(() => sanityCheck("A", 4, 2));
+  assert.doesNotThrow(() => sanityCheck("A", 3, 1, { shrink: false }));
   assert.doesNotThrow(() => sanityCheck("A", 10, 9));
   assert.doesNotThrow(() => sanityCheck("A", 0, 3));
 });
@@ -113,4 +116,22 @@ test("refresh: a truncated tree is rejected, not applied", async () => {
   const r = await refresh({ root, fetchFn });
   assert.equal(r.changed, false);
   assert.ok(r.failures.some((f) => /truncated/.test(f)));
+});
+
+test("refresh: rows with a stale upstream path survive by name and get their URL corrected", async () => {
+  const stale = row("anthropic", "pdf", { b: "document-skills", d: "PDF stuff", u: "https://github.com/anthropics/skills/tree/main/document-skills/pdf" });
+  const root = await fixtureRepo([stale, localRow]);
+  const tree = { truncated: false, tree: [{ type: "blob", path: "skills/pdf/SKILL.md" }] };
+  const r = await refresh({ root, fetchFn: eccDown(fakeFetch({ tree, files: { "skills/pdf/SKILL.md": "---\ndescription: PDF stuff\n---\n" } })) });
+  assert.equal(r.changes.removed.length, 0);
+  const out = JSON.parse(await readFile(path.join(root, "data", "items.json"), "utf8")).find((x) => x.n === "pdf");
+  assert.equal(out.u, "https://github.com/anthropics/skills/tree/main/skills/pdf");
+  assert.equal(out.b, "document-skills");
+});
+
+test("refresh: local skills removed from disk are removed from the table", async () => {
+  const gone = { ...localRow, n: "deleted-skill" };
+  const root = await fixtureRepo([localRow, gone, { ...localRow, n: "also-gone" }]);
+  const r = await refresh({ root, fetchFn: eccDown(fakeFetch({ tree: { truncated: false, tree: [] } })) });
+  assert.deepEqual(r.changes.removed.map((x) => x.n).sort(), ["also-gone", "deleted-skill"]);
 });
